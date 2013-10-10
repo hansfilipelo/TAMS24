@@ -1,0 +1,32 @@
+% Uppgift 5: Avvikande värden, så kallade outliers
+% close all, clear, clc;
+
+x = [85729 8154 58805  8673 218395 575143   5174  66896  57204  57353  92162  18508   7811   4666 264636 116648  27111   4644  14727 ...
+    5395 3365  6144  3964  6233  8139 65219 35149 360295  7395 49622 16300  5643  2505 88611 184377 103124 12724  2410  6162 110221 ...
+    102956 62013 625449 33887 23780 70680  9853 280125 55658 142731 398472 168607 26222 50319 160942 137634  60746 77989 22261 12457 ...
+    6808  3826 183653  8587 18318  8025  2490]';
+y = [263  73 248  65 570 795  90 182 270 186 122  89  36  29 652 502  83  33  38  29   9  71  23  30  22 242 127 847  76 105 102  29 ...
+    10 289 305 282  67  39  29 271 563 112 560  47  90 267  43 446 145 570 1013 533 148 311 305 194 229 124 114 108  27  37 498  46 ...
+    120  88   5]';
+
+lx=log10(x);
+ly=log10(y);
+
+figure
+plot(lx,ly,'*')
+xlabel('x'), ylabel('y')
+lsline % ls = least square, dvs. minsta-kvadrat anpassning
+
+v=[1];
+
+
+
+regr = regstats(ly,lx,'linear','all');
+betahat = regr.tstat.beta
+
+
+
+
+% Prediktionsintervall modell 2 för företag med säkerhetsprogram och 6600 anställda
+tupper = v*tbetahat+2.02*sqrt(1+v*tXtXinv*v')*sqrt(ts2)
+tlower = v*tbetahat-2.02*sqrt(1+v*tXtXinv*v')*sqrt(ts2)
