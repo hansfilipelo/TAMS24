@@ -9,3 +9,25 @@ y = [263  73 248  65 570 795  90 182 270 186 122  89  36  29 652 502  83  33  38
     10 289 305 282  67  39  29 271 563 112 560  47  90 267  43 446 145 570 1013 533 148 311 305 194 229 124 114 108  27  37 498  46 ...
     120  88   5]';
 
+lx=log10(x);
+ly=log10(y);
+
+figure
+plot(lx,ly,'*')
+xlabel('x'), ylabel('y')
+lsline % ls = least square, dvs. minsta-kvadrat anpassning
+
+v=[1,5.6367];
+
+
+
+regr = regstats(ly,lx,'linear','all');
+tbetahat = regr.tstat.beta
+t = regr.tstat.t
+ts2 = regr.mse
+
+tXtXinv = regr.covb/regr.mse;
+
+% Prediktionsintervall modell 2 för företag med säkerhetsprogram och 6600 anställda
+tupper = v*tbetahat+2.76*sqrt(1+v*tXtXinv*v')*sqrt(ts2)
+tlower = v*tbetahat-2.76*sqrt(1+v*tXtXinv*v')*sqrt(ts2)

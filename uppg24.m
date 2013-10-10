@@ -1,5 +1,7 @@
 % Uppgift 4: Stegvis regression enligt framåtvalsprincipen
 % close all, clear, clc;
+clear;
+clc;
 
 X = [7337  3000  3.6  12.96  64;
     4204  2300  1.2   1.44  69;
@@ -39,3 +41,40 @@ x4 = X(:,4);
 x5 = X(:,5);
 
 y = [550 461 501 455 503 529 478 562 417 566 494 515 490 537 527 577 490 486 450 674 454 523 469 628 570 564 444 494 479 477]';
+
+s1=std(x1);
+s2=std(x2);
+s3=std(x3);
+s4=std(x4);
+s5=std(x5);
+
+disp('---------- Modell 1 ----------')
+regr = regstats(y,[x2,x5,x4],'linear','all');
+betahat = regr.tstat.beta
+se = regr.tstat.se
+fstat = regr.fstat
+Qres1 = fstat.sse
+dfe1 = fstat.dfe
+s2 = regr.mse
+R2 = regr.rsquare
+t = regr.tstat.t
+residuals = regr.r;
+
+c1=corrcoef(x1,y)
+c2=corrcoef(x2,y)
+
+XtXinv = regr.covb/regr.mse;
+
+disp('---------- Modell 2 ----------')
+regr1 = regstats(y,[x1 x2 x3 x4 x5],'linear','all')
+fstat = regr1.fstat
+Qres2 = fstat.sse
+t1 = regr1.tstat.t
+betahat1 = regr1.tstat.beta
+dfe2 = fstat.dfe
+
+
+F=((Qres1-Qres2)/2)/(Qres2/(dfe2))
+f=finv(0.975,2,24)
+c3=corrcoef(x3,x4)
+
